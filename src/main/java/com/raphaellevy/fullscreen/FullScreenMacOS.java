@@ -1,14 +1,50 @@
 //Copyright (C) 2017 Raphael Levy
 package com.raphaellevy.fullscreen;
 
+import java.awt.FlowLayout;
 import java.awt.Window;
-import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *	Utility methods for adding native mac full screen support to AWT/Swing applications.
  */
 public class FullScreenMacOS 
 {
+
+	public static void main(String[] args) throws Throwable {
+		final JFrame frame = new JFrame("JFrame Example");
+		FullScreenMacOS.setFullScreenEnabled(frame, true);
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout());
+
+		JLabel label = new JLabel("This is a label!");
+
+		JButton button = new JButton();
+		button.setText("Click me to toggle fullscreen");
+		button.addActionListener((evt) -> {
+			try {
+				FullScreenMacOS.toggleFullScreen(frame);
+			}
+			catch(Exception e) {
+				JOptionPane.showMessageDialog(frame, "failed");
+			}
+		});
+
+		panel.add(label);
+		panel.add(button);
+
+		frame.add(panel);
+		frame.setSize(300, 300);
+		frame.setLocationRelativeTo(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
 	/**
 	 * Set whether this window can be made full screen.
 	 * @param frame
